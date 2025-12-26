@@ -1,7 +1,7 @@
 # Feature: Team Logos & Enhanced Game Cards
 
 **Created**: 2025-12-26
-**Status**: Priority complete, Phase 1-3 Complete, Phase 4 in testing
+**Status**: ✅ Complete
 **Goal**: Add team logos to the picks screen using ESPN's CDN
 
 ---
@@ -73,10 +73,10 @@ Add logo images to the TeamButton component.
 - [x] Handle missing logos gracefully (hide img if null)
 
 ### Test Checkpoint
-- [ ] Run `npm run dev` and view picks screen
-- [ ] Verify logos appear next to team names
-- [ ] Verify layout looks good on mobile (small screens)
-- [ ] Verify logos don't break when team has no mapping
+- [x] Run `bun run dev` and view picks screen
+- [x] Verify logos appear next to team names
+- [x] Verify layout looks good on mobile (small screens)
+- [x] Verify logos don't break when team has no mapping
 
 ---
 
@@ -86,13 +86,13 @@ Add robustness for image loading failures.
 
 ### Tasks
 - [x] Add `onError` handler to hide broken images
-- [ ] Consider adding a placeholder/fallback icon (optional)
-- [ ] Add subtle fade-in animation on load (optional)
-- [ ] Test with network throttling in DevTools
+- [x] Consider adding a placeholder/fallback icon (optional) - skipped, graceful hide is sufficient
+- [x] Add subtle fade-in animation on load (optional) - skipped, not needed
+- [x] Test with network throttling in DevTools
 
 ### Test Checkpoint
-- [ ] Simulate a broken image URL and verify graceful fallback
-- [ ] Verify no console errors for missing images
+- [x] Simulate a broken image URL and verify graceful fallback
+- [x] Verify no console errors for missing images
 
 ---
 
@@ -101,15 +101,15 @@ Add robustness for image loading failures.
 Final touches and dark mode support.
 
 ### Tasks
-- [ ] Review spacing and alignment of logos
-- [ ] Ensure logos look good in both light and dark modes
-- [ ] Consider using dark mode logos for dark theme (optional enhancement)
-- [x] Run production build to verify no issues: `npm run build`
+- [x] Review spacing and alignment of logos
+- [x] Ensure logos look good in both light and dark modes
+- [x] Consider using dark mode logos for dark theme (optional enhancement) - skipped, standard logos look fine
+- [x] Run production build to verify no issues: `bun run build`
 
 ### Test Checkpoint
-- [ ] Test on real device (phone)
-- [ ] Get user feedback on appearance
-- [ ] Take before/after screenshots
+- [x] Test on real device (phone)
+- [x] Get user feedback on appearance
+- [x] Take before/after screenshots - skipped
 
 ---
 

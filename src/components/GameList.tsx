@@ -11,6 +11,7 @@ interface GameListProps {
   picksCount: number
   totalGames: number
   score: number
+  lastScoresUpdate: string | null
   onPick: (gameId: string, team: 'team1' | 'team2') => void
 }
 
@@ -22,6 +23,7 @@ export function GameList({
   picksCount,
   totalGames,
   score,
+  lastScoresUpdate,
   onPick,
 }: GameListProps) {
   const formatTimeRemaining = (ms: number) => {
@@ -34,6 +36,28 @@ export function GameList({
   }
 
   const getPick = (gameId: string) => picks.find((p) => p.game_id === gameId)
+
+  // Check if any games in a date group have started
+  const hasGamesStarted = (games: Game[]) => {
+    const now = new Date()
+    return games.some((game) => new Date(game.game_time) <= now)
+  }
+
+  // Check if all games in a date group are final
+  const allGamesFinal = (games: Game[]) => {
+    return games.every((game) => game.is_final)
+  }
+
+  // Get status text for a date group
+  const getDateStatus = (games: Game[]) => {
+    if (allGamesFinal(games)) {
+      return 'Final'
+    }
+    if (hasGamesStarted(games)) {
+      return lastScoresUpdate ? `Updated ${lastScoresUpdate}` : null
+    }
+    return 'Upcoming'
+  }
 
   return (
     <div className="space-y-6">
@@ -74,9 +98,12 @@ export function GameList({
       {/* Games by Date */}
       {Object.entries(gamesByDate).map(([date, dateGames]) => (
         <div key={date}>
-          <h2 className="text-lg font-semibold mb-3 sticky top-0 bg-background py-2">
-            {date}
-          </h2>
+          <div className="flex items-center justify-between mb-3 sticky top-0 bg-background py-2">
+            <h2 className="text-lg font-semibold">{date}</h2>
+            <span className="text-xs text-muted-foreground">
+              {getDateStatus(dateGames)}
+            </span>
+          </div>
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {dateGames.map((game) => (
               <GameCard

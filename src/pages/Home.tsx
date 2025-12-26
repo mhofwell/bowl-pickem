@@ -1,5 +1,6 @@
 import { useAuth } from '@/hooks/useAuth'
 import { useGames } from '@/hooks/useGames'
+import { useAppMetadata } from '@/hooks/useAppMetadata'
 import { AuthForm } from '@/components/AuthForm'
 import { Header } from '@/components/Header'
 import { GameList } from '@/components/GameList'
@@ -19,6 +20,7 @@ export default function Home() {
     totalGames,
     picksCount,
   } = useGames(user?.id)
+  const { lastScoresUpdateFormatted } = useAppMetadata()
 
   if (authLoading) {
     return (
@@ -70,6 +72,7 @@ export default function Home() {
                 picksCount={picksCount}
                 totalGames={totalGames}
                 score={score}
+                lastScoresUpdate={lastScoresUpdateFormatted}
                 onPick={makePick}
               />
             )}

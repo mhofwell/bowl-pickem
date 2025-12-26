@@ -9,6 +9,23 @@ export type Json =
 export interface Database {
   public: {
     Tables: {
+      app_metadata: {
+        Row: {
+          key: string
+          value: string | null
+          updated_at: string
+        }
+        Insert: {
+          key: string
+          value?: string | null
+          updated_at?: string
+        }
+        Update: {
+          key?: string
+          value?: string | null
+          updated_at?: string
+        }
+      }
       profiles: {
         Row: {
           id: string
@@ -149,6 +166,12 @@ export interface Database {
     }
     Enums: Record<string, never>
   }
+}
+
+export type AppMetadata = {
+  key: string
+  value: string | null
+  updated_at: string
 }
 
 export type Profile = Database['public']['Tables']['profiles']['Row']
