@@ -4,14 +4,20 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **Keep this file updated.** When making significant changes to the codebase (new dependencies, architectural changes, new commands, database schema updates, or new patterns), update this file accordingly.
 
+## Package Manager
+
+**Always use `bun`** - never use `npm` or `yarn` in this project.
+
 ## Commands
 
 ```bash
-npm run dev      # Start development server (Vite)
-npm run build    # Type-check with tsc, then build with Vite
-npm run lint     # Run ESLint
-npm run preview  # Preview production build locally
-npm run start    # Serve built app on port 3000 (for Railway deployment)
+bun run dev      # Start development server (Vite)
+bun run build    # Type-check with tsc, then build with Vite
+bun run lint     # Run ESLint
+bun run preview  # Preview production build locally
+bun run start    # Serve built app on port 3000 (for Railway deployment)
+bun add <pkg>    # Add a dependency
+bun add -d <pkg> # Add a dev dependency
 ```
 
 ## Architecture
