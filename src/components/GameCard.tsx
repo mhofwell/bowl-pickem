@@ -1,6 +1,8 @@
+import { useState } from 'react'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
+import { getTeamLogoUrl } from '@/lib/teamLogos'
 import type { Game, Pick } from '@/types/database'
 
 interface GameCardProps {
@@ -101,6 +103,9 @@ function TeamButton({
   isDisabled,
   onClick,
 }: TeamButtonProps) {
+  const [imgError, setImgError] = useState(false)
+  const logoUrl = getTeamLogoUrl(teamName)
+
   let variant: 'default' | 'outline' | 'secondary' | 'destructive' = 'outline'
   let className = ''
 
@@ -121,12 +126,19 @@ function TeamButton({
       disabled={isDisabled}
       onClick={onClick}
     >
-      <span className={`text-left ${isWinner ? 'font-bold' : ''}`}>
+      <span className={`flex items-center gap-2 text-left ${isWinner ? 'font-bold' : ''}`}>
+        {logoUrl && !imgError && (
+          <img
+            src={logoUrl}
+            alt={`${teamName} logo`}
+            className="w-6 h-6 object-contain flex-shrink-0"
+            loading="lazy"
+            onError={() => setImgError(true)}
+          />
+        )}
         {teamName}
       </span>
-      {score !== null && (
-        <span className={`${isWinner ? 'font-bold' : ''}`}>{score}</span>
-      )}
+      <span className={`${isWinner ? 'font-bold' : ''}`}>{score ?? 0}</span>
     </Button>
   )
 }
