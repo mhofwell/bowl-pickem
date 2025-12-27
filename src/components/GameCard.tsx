@@ -15,7 +15,9 @@ interface GameCardProps {
 export function GameCard({ game, pick, isLocked, onPick }: GameCardProps) {
   const gameTime = new Date(game.game_time)
   const isPast = gameTime < new Date()
-  const isDisabled = isLocked || game.is_final
+  // Only visually disable if locked AND game not final (final games show results)
+  const isDisabled = isLocked && !game.is_final
+  const isClickable = !isLocked && !game.is_final
 
   const formatTime = (date: Date) => {
     return date.toLocaleTimeString('en-US', {
@@ -62,7 +64,7 @@ export function GameCard({ game, pick, isLocked, onPick }: GameCardProps) {
             result={getPickResult('team1')}
             isWinner={game.winner === 'team1'}
             isDisabled={isDisabled}
-            onClick={() => onPick(game.id, 'team1')}
+            onClick={() => isClickable && onPick(game.id, 'team1')}
           />
 
           {/* Team 2 */}
@@ -73,7 +75,7 @@ export function GameCard({ game, pick, isLocked, onPick }: GameCardProps) {
             result={getPickResult('team2')}
             isWinner={game.winner === 'team2'}
             isDisabled={isDisabled}
-            onClick={() => onPick(game.id, 'team2')}
+            onClick={() => isClickable && onPick(game.id, 'team2')}
           />
         </div>
 
