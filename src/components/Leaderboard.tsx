@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import {
   Dialog,
   DialogContent,
@@ -36,6 +37,7 @@ export function Leaderboard({
   getLeaderboard,
   totalGames,
 }: LeaderboardProps) {
+  const navigate = useNavigate()
   const [entries, setEntries] = useState<LeaderboardEntry[]>([])
   const [loading, setLoading] = useState(true)
 
@@ -48,6 +50,11 @@ export function Leaderboard({
       })
     }
   }, [open, poolId, getLeaderboard])
+
+  const handleUserClick = (userId: string) => {
+    onOpenChange(false) // Close the modal
+    navigate(`/pool/${poolId}/user/${userId}`)
+  }
 
   const getInitials = (name: string) => {
     return name
@@ -101,9 +108,10 @@ export function Leaderboard({
                 {entries.map((entry, index) => (
                   <TableRow
                     key={entry.user_id}
-                    className={
+                    className={`cursor-pointer hover:bg-muted/80 transition-colors ${
                       entry.user_id === currentUserId ? 'bg-muted/50' : ''
-                    }
+                    }`}
+                    onClick={() => handleUserClick(entry.user_id)}
                   >
                     <TableCell className="font-medium">
                       <span className="mr-1">{getRankEmoji(index)}</span>
@@ -117,7 +125,7 @@ export function Leaderboard({
                           </AvatarFallback>
                         </Avatar>
                         <div className="flex flex-col">
-                          <span className="font-medium">
+                          <span className="font-medium text-primary hover:underline">
                             {entry.display_name}
                           </span>
                           {entry.user_id === currentUserId && (

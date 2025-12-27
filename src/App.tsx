@@ -3,6 +3,7 @@ import { Toaster } from '@/components/ui/sonner'
 import Home from '@/pages/Home'
 import JoinPool from '@/pages/JoinPool'
 import AuthCallback from '@/pages/AuthCallback'
+import UserPicks from '@/pages/UserPicks'
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/join/:code" element={<JoinPool />} />
           <Route path="/auth/callback" element={<AuthCallback />} />
+          <Route path="/pool/:poolId/user/:userId" element={<UserPicks />} />
         </Routes>
         <Toaster />
       </div>

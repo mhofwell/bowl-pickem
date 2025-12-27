@@ -10,9 +10,10 @@ interface GameCardProps {
   pick?: Pick
   isLocked: boolean
   onPick: (gameId: string, team: 'team1' | 'team2') => void
+  readOnly?: boolean
 }
 
-export function GameCard({ game, pick, isLocked, onPick }: GameCardProps) {
+export function GameCard({ game, pick, isLocked, onPick, readOnly = false }: GameCardProps) {
   const gameTime = new Date(game.game_time)
   const isPast = gameTime < new Date()
   const isDisabled = isLocked || game.is_final
@@ -62,6 +63,7 @@ export function GameCard({ game, pick, isLocked, onPick }: GameCardProps) {
             result={getPickResult('team1')}
             isWinner={game.winner === 'team1'}
             isDisabled={isDisabled}
+            readOnly={readOnly}
             onClick={() => onPick(game.id, 'team1')}
           />
 
@@ -73,6 +75,7 @@ export function GameCard({ game, pick, isLocked, onPick }: GameCardProps) {
             result={getPickResult('team2')}
             isWinner={game.winner === 'team2'}
             isDisabled={isDisabled}
+            readOnly={readOnly}
             onClick={() => onPick(game.id, 'team2')}
           />
         </div>
@@ -91,6 +94,7 @@ interface TeamButtonProps {
   result: 'correct' | 'incorrect' | null
   isWinner: boolean
   isDisabled: boolean
+  readOnly?: boolean
   onClick: () => void
 }
 
@@ -101,6 +105,7 @@ function TeamButton({
   result,
   isWinner,
   isDisabled,
+  readOnly = false,
   onClick,
 }: TeamButtonProps) {
   const [imgError, setImgError] = useState(false)
@@ -124,12 +129,15 @@ function TeamButton({
     }
   }
 
+  // In readOnly mode, show as a div styled like a button (non-interactive)
+  const isClickable = !readOnly && !isDisabled
+
   return (
     <Button
       variant={variant}
-      className={`w-full justify-between h-auto py-2 px-3 ${extraClasses}`}
-      disabled={isDisabled}
-      onClick={onClick}
+      className={`w-full justify-between h-auto py-2 px-3 ${extraClasses} ${readOnly ? 'pointer-events-none' : ''}`}
+      disabled={isDisabled && !readOnly}
+      onClick={isClickable ? onClick : undefined}
     >
       <span className={`flex items-center gap-2 text-left ${isWinner ? 'font-bold' : ''}`}>
         {logoUrl && !imgError && (

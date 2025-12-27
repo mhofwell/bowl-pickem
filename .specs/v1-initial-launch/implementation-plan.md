@@ -1,10 +1,10 @@
 # Bowl Game Pick'em - Implementation Plan
 
-## CURRENT STATUS (Dec 25, 2025)
-- **Phase 1-4 COMPLETE** - Project builds successfully
-- **Next up: Phase 5** - Pools & Leaderboard
-- Run `bun run dev` to test locally
+## CURRENT STATUS (Dec 27, 2025)
+- **All Phases COMPLETE** - v1 launched
+- App deployed to Railway
 - Supabase project: `rhufeltyxswtidwgsmat` (27 games seeded, RLS enabled)
+- Live scores updating via edge function
 
 ---
 
