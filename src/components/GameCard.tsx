@@ -15,9 +15,7 @@ interface GameCardProps {
 export function GameCard({ game, pick, isLocked, onPick }: GameCardProps) {
   const gameTime = new Date(game.game_time)
   const isPast = gameTime < new Date()
-  // Only visually disable if locked AND game not final (final games show results)
-  const isDisabled = isLocked && !game.is_final
-  const isClickable = !isLocked && !game.is_final
+  const isDisabled = isLocked || game.is_final
 
   const formatTime = (date: Date) => {
     return date.toLocaleTimeString('en-US', {
@@ -64,7 +62,7 @@ export function GameCard({ game, pick, isLocked, onPick }: GameCardProps) {
             result={getPickResult('team1')}
             isWinner={game.winner === 'team1'}
             isDisabled={isDisabled}
-            onClick={() => isClickable && onPick(game.id, 'team1')}
+            onClick={() => onPick(game.id, 'team1')}
           />
 
           {/* Team 2 */}
@@ -75,7 +73,7 @@ export function GameCard({ game, pick, isLocked, onPick }: GameCardProps) {
             result={getPickResult('team2')}
             isWinner={game.winner === 'team2'}
             isDisabled={isDisabled}
-            onClick={() => isClickable && onPick(game.id, 'team2')}
+            onClick={() => onPick(game.id, 'team2')}
           />
         </div>
 
@@ -108,15 +106,20 @@ function TeamButton({
   const [imgError, setImgError] = useState(false)
   const logoUrl = getTeamLogoUrl(teamName)
 
+  // Determine button styling based on selection and result
   let variant: 'default' | 'outline' | 'secondary' | 'destructive' = 'outline'
-  let className = ''
+  let extraClasses = ''
 
   if (isSelected) {
     if (result === 'correct') {
-      className = 'bg-green-600 hover:bg-green-600 text-white border-green-600'
+      // Green for correct picks - override default variant colors
+      variant = 'default'
+      extraClasses = '!bg-green-600 hover:!bg-green-700 !text-white'
     } else if (result === 'incorrect') {
-      className = 'bg-red-600 hover:bg-red-600 text-white border-red-600'
+      // Use built-in destructive variant (red)
+      variant = 'destructive'
     } else {
+      // Purple/indigo for pending picks (game not final yet)
       variant = 'default'
     }
   }
@@ -124,7 +127,7 @@ function TeamButton({
   return (
     <Button
       variant={variant}
-      className={`w-full justify-between h-auto py-2 px-3 ${className}`}
+      className={`w-full justify-between h-auto py-2 px-3 ${extraClasses}`}
       disabled={isDisabled}
       onClick={onClick}
     >
